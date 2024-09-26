@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <style>
+    h1 {
+      text-align: center;
+      margin-top: 50px;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+    }
+
+    body{
+      background-color: beige;
+    }
+
+    .container{
+      display: flex;
+      flex-direction: row;
+      column-gap: 2rem;
+      justify-content: center;
+      margin: 0 auto;
+      margin-top: 50px;
+      background-color: burlywood;
+      padding: 2rem;
+      width: fit-content;
+      border: 2px solid black;
+    }
+
+    .form-label{
+      font-size: 1.5em;
+      margin-right: 1rem;
+      font-weight: 700;
+    }
+
+    input{
+      font-size: 1em;
+      padding: 0.5rem;
+      border: 2px solid black;
+    }
+
+    .shorten-btn{
+      font-size: 1em;
+      padding: 0.5rem;
+      background-color: darkslategray;
+      color: white;
+      border: 2px solid black;
+      cursor: pointer;
+    }
+
+    .shorten-btn:hover{
+      background-color: rgb(20, 34, 34);
+    }
+
+    .shortenUrl-p{
+      text-align: center;
+      margin-top: 50px;
+      font-size: 1.5em;
+    }
+
+    .shortenUrl{
+      font-weight: 700;
+      color: blue;
+      text-decoration: underline;
+    }
+
+    .table-container{
+      margin-top: 50px;
+      display: flex;
+      justify-content: center;
+    }
+
+    table{
+      padding: 1rem;
+      width: 80%;
+    }
+
+    th, td{
+      border: 1px solid black;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    td > a{
+      color: blue;
+      text-decoration: underline;
+    }
+
+
+
+  </style>
+</head>
+
+<body>
+
+  <h1>URL Shortner</h1>
+
+
+  <div class="container">
+    <form action="/url" method="POST">
+      <label class="form-label" for="url">Enter URL:</label>
+      <input type="text" id="url" name="url" placeholder="https://example.com" required>
+      <button class="shorten-btn" type="submit">Shorten</button>
+    </form>
+  </div>
+
+
+  <% if(locals.id){ %>
+
+   <p class="shortenUrl-p">URL Generated: <a class="shortenUrl">http://localhost:3000/<%= id %> </a></p>
+  
+  <% } %>
+
+
+
+  <div class="table-container">
+
+    <% if(locals.urls){ %>
+      <table>
+        <thead>
+          <th>S. No</th>
+          <th>Original URL</th>
+          <th>Shortened URL</th>
+          <th>Clicks</th>
+        </thead>
+
+        <tbody>
+          <% urls.forEach((url, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= url.redirectUrl %></td>
+              <td><a href="http://localhost:3000/<%= url.shortId %>">http://localhost:3000/<%= url.shortId %></a></td>
+              <td><%= url.visitHistory.length %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+
+  </div>
+  
+
+  
+
+
+
+</body>
+
+</html>

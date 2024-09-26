@@ -3,7 +3,6 @@ const {URL} = require('../models/url');
 
 async function handelGenerateNewShortURL(req, res) {
 
-
   if(!req.body.url) {
     return res.status(400).json({ error: 'Url is required' });
   }
@@ -17,7 +16,10 @@ async function handelGenerateNewShortURL(req, res) {
   });
 
 
-  res.json({ id: shortId });
+  return res.render('home', {
+    id: shortId,
+  });
+
 }
 
 
@@ -33,7 +35,6 @@ async function handelGetAnalytics(req, res) {
   }
 
   res.json({totalClicks: url.visitHistory.length, visitHidtory: url.visitHistory});
-
 
 }
 

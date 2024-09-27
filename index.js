@@ -2,24 +2,38 @@ const express = require('express');
 const {urlRouter} = require('./routes/url');
 const {URL} = require('./models/url');
 const {staticRouter} = require('./routes/staticRouter');
+const {userRouter} = require('./routes/user');
 const {connectToMongoDB} = require('./connect');
+const cookieParser = require('cookie-parser');
+const {restrictToLoggedinUserOnly, checkAuth} = require('./middlewares/auth');
 require("dotenv").config();
 const app = express();
 
 
 connectToMongoDB(process.env.MONGO_URI);
 
+//Middleware to parse the json body
 app.use(express.json());
 
 //Middleware to parse the body of the form data
 app.use(express.urlencoded({extended: true}));
 
+//Middleware to parse the cookies
+app.use(cookieParser());
+
+
+//Setting the view engine to ejs
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
-app.use('/url', urlRouter);
+//This is the URL router which will handle all the routes like /url/shorten, /url/all-urls etc
+app.use('/url', restrictToLoggedinUserOnly, urlRouter);
 
-app.use('/', staticRouter);
+//This is the static router which will handle all the static routes like /signup, /login, /home etc
+app.use('/', checkAuth, staticRouter);
+
+//This is the user router which will handle all the routes like /user/signup, /user/login etc
+app.use("/user", userRouter);
 
 // app.get('/all-urls', async (req, res) => {
 //     //Gives array of all urls documents in the database

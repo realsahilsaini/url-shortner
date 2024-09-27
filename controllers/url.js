@@ -13,6 +13,7 @@ async function handelGenerateNewShortURL(req, res) {
     shortId,
     redirectUrl: req.body.url,
     visitHistory: [],
+    createdBy: req.user._id,
   });
 
 

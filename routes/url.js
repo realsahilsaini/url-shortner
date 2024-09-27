@@ -3,15 +3,10 @@ const {handelGenerateNewShortURL, handelGetAnalytics} = require('../controllers/
 const shortid = require('shortid');
 const urlRouter = Router();
 
-urlRouter.post('/', handelGenerateNewShortURL ,(req, res) => {
-  res.json({message: 'Hello from URL router', shortid: id});
-}); 
+urlRouter.post('/', handelGenerateNewShortURL);
 
 
-
-urlRouter.get('/analytics/:shortId', handelGetAnalytics,  (req, res) => {
-  res.json({message: 'Hello from URL router analytics', });
-});
+urlRouter.get('/analytics/:shortId', handelGetAnalytics);
 
 
 

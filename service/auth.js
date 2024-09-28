@@ -1,14 +1,22 @@
 //basically a dairy to store the user session id and user object
-const sessionIdToUserMap = new Map();
+const jwt = require('jsonwebtoken');
 
 
 
-function setUser (id, user) {
-  sessionIdToUserMap.set(id, user);
+function setUser (user) {
+
+  return jwt.sign({
+    _id: user._id,
+    username: user.username
+  }, process.env.JWT_SECRET);
+
 }
 
-function getUser (id) {
-  return sessionIdToUserMap.get(id);
+function getUser (token) {
+
+  if(!token) return null;
+
+  return jwt.verify(token, process.env.JWT_SECRET);
 }
 
 module.exports = {

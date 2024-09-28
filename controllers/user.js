@@ -32,13 +32,12 @@ async function handelUserSignin(req,res){
     });
   }
 
-  const sessionId = uuidv4();
-  setUser(sessionId, user);
+  const token = setUser(user)
 
-  res.cookie('uid', sessionId);
+  res.cookie('uid', token);
 
 
-  // since working with ejs
+  // redirect to home page after sign in
   return res.redirect("/")
 
 }

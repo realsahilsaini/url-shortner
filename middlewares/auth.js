@@ -21,7 +21,7 @@ async function restrictToLoggedinUserOnly(req, res, next) {
   next();
 }
 
-
+//this works by checking if the user has a cookie with the uid and if the user is in the database or not 
 async function checkAuth(req, res, next) {
 
   const userUid = req.cookies?.uid;

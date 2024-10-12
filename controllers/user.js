@@ -34,11 +34,8 @@ async function handelUserSignin(req,res){
 
   const token = setUser(user)
 
-  return res.json({token});
+  return res.cookie("token", token).redirect("/")
 
-
-  // redirect to home page after sign in
-  // return res.redirect("/")
 
 }
 

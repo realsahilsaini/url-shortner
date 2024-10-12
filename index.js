@@ -5,7 +5,7 @@ const {staticRouter} = require('./routes/staticRouter');
 const {userRouter} = require('./routes/user');
 const {connectToMongoDB} = require('./connect');
 const cookieParser = require('cookie-parser');
-const {restrictToLoggedinUserOnly, checkAuth} = require('./middlewares/auth');
+const {checkAuthentication, restrictTo} = require('./middlewares/auth');
 require("dotenv").config();
 const app = express();
 
@@ -21,16 +21,19 @@ app.use(express.urlencoded({extended: true}));
 //Middleware to parse the cookies
 app.use(cookieParser());
 
+//Middleware to check if the user is logged in or not
+app.use(checkAuthentication);
+
 
 //Setting the view engine to ejs
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
 //This is the URL router which will handle all the routes like /url/shorten, /url/all-urls etc
-app.use('/url', restrictToLoggedinUserOnly, urlRouter);
+app.use('/url', restrictTo(["NORMAL"]), urlRouter);
 
 //This is the static router which will handle all the static routes like /signup, /login, /home etc
-app.use('/', checkAuth, staticRouter);
+app.use('/', staticRouter);
 
 //This is the user router which will handle all the routes like /user/signup, /user/login etc
 app.use("/user", userRouter);

@@ -1,15 +1,19 @@
 const express = require('express');
 const {URL} = require('../models/url');
+const { restrictTo } = require('../middlewares/auth');
 
 const staticRouter = express.Router();
 
-staticRouter.get('/', async (req, res)=>{
+staticRouter.get('/admin/urls', restrictTo(["ADMIN"]), async (req, res)=>{
 
+  const allUrls = await URL.find({});
 
-  //If no req.user, from checkAuth() middleweware, redirect to signin page
-  if(!req.user) {
-    return res.redirect('/user/signin');
-  }
+  res.render('home', {
+    urls: allUrls,
+  });
+});
+
+staticRouter.get('/', restrictTo(["NORMAL", "ADMIN"]) ,async (req, res)=>{
   
   const userUrls = await URL.find({createdBy: req.user._id});
 

@@ -8,7 +8,8 @@ function setUser (user) {
   //This gives token to the user
   return jwt.sign({
     _id: user._id,
-    username: user.username
+    username: user.username,
+    role: user.role
   }, process.env.JWT_SECRET);
 
 }

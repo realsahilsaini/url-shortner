@@ -30,7 +30,7 @@ app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
 //This is the URL router which will handle all the routes like /url/shorten, /url/all-urls etc
-app.use('/url', restrictTo(["NORMAL"]), urlRouter);
+app.use('/url', restrictTo(["NORMAL", "ADMIN"]), urlRouter);
 
 //This is the static router which will handle all the static routes like /signup, /login, /home etc
 app.use('/', staticRouter);
